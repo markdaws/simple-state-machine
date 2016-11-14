@@ -114,6 +114,24 @@ cfg.OnEnterFrom(tr1, func(ctx interface{}) { fmt.Println("s2 onenterfrom got dat
 sm.Fire(tr1.Key, "I am some data")
 ```
 
+##Guarded Triggers
+You can specify a trigger from one state to another, that is only valid if certain conditions are met.
+```go
+s1 := ssm.State{Name:"s1"}
+s2 := ssm.State{Name:"s2"}
+tr := ssm.Trigger{Key:"tr"}
+
+sm := ssm.NewStateMachine(s1)
+cfg := sm.Configure(s1)
+
+// Using PermitIf vs Permit we can define a predicate that will be checked at 
+// runtime to see if we can transition.  You can have multiple predicates, the
+// state machine iterates from first to last and will stop at the first predicate
+// that evaluates to true
+canITransition := false
+cfg.PermitIt(tr, s2, func(){ return canITransition })
+```
+
 ##Substates
 You can specify that one state is a substate of another. For example if you have a telephone call, you could be in a "Connected" state but also be in the "OnHold" state, when you are on hold in a call you are still connected, so in this scenario OnHold is considered to be a substate of Connected.
 
