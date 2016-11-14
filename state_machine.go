@@ -62,8 +62,6 @@ func (sm *StateMachine) Fire(triggerKey string, ctx interface{}) error {
 	// If the state we are transitioning to is not a substate of the current
 	// state then fire all of the exit handlers up the chain
 	targetParent := sm.stateToConfig[edge.state].parent
-	//	if targetParent != nil &&
-
 	if targetParent == nil || (targetParent.state != sm.current.state) {
 		current := sm.current
 		for current != nil {

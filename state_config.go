@@ -1,6 +1,6 @@
 package ssm
 
-// edge represents a transition edge from one state ot another via a trigger.
+// edge represents a transition edge from one state to another via a trigger.
 type edge struct {
 	trigger Trigger
 	state   State
