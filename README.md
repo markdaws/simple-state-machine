@@ -1,23 +1,23 @@
 # simple-state-machine
 golang based state machine library, for creating simple state machines to handle workflows. Based on the https://github.com/dotnet-state-machine/stateless project.
 
-##Documentation
+## Documentation
 See [godoc](https://godoc.org/github.com/markdaws/simple-state-machine)
 
-##Installation
+## Installation
 ```bash
 go get github.com/markdaws/simple-state-machine
 ```
 
-##Package
+## Package
 ```go
 import "github.com/markdaws/simple-state-machine"
 ```
 
-##Usage
+## Usage
 See state_machine_test.go and examples/main.go for examples on how to use this library.
 
-##State Machine creation
+## State Machine creation
 To use the state machine, you need to define all the states, and triggers.  you then create a state machine with an initial state, and configure the state to show how the triggers move between the various states.
 
 ```go
@@ -68,7 +68,7 @@ for {
 }
 ```
 
-##Entry/Exit events
+## Entry/Exit events
 You can specify a handler that will fire when a state is entered and exited.  You can also get more fine grained and specify that a handler should only fire when transitioning to a state from a certain trigger.
 
 ```go
@@ -97,7 +97,7 @@ cfg.OnExit(func() { fmt.Println("s2 exit") })
 cfg.OnEnterFrom(tr2, func(ctx interface{}) { fmt.Println("s2 enter from tr2") })
 ```
 
-##Parameterized Triggers
+## Parameterized Triggers
 When you fire a trigger, you can pass along some data that will be passed to the OnEnter from handler if you specified one.
 ```go
 s1 := ssm.State{Name: "s1"}
@@ -114,7 +114,7 @@ cfg.OnEnterFrom(tr1, func(ctx interface{}) { fmt.Println("s2 onenterfrom got dat
 sm.Fire(tr1.Key, "I am some data")
 ```
 
-##Guarded Triggers
+## Guarded Triggers
 You can specify a trigger from one state to another, that is only valid if certain conditions are met.
 ```go
 s1 := ssm.State{Name:"s1"}
@@ -132,7 +132,7 @@ canITransition := false
 cfg.PermitIt(tr, s2, func(){ return canITransition })
 ```
 
-##Substates
+## Substates
 You can specify that one state is a substate of another. For example if you have a telephone call, you could be in a "Connected" state but also be in the "OnHold" state, when you are on hold in a call you are still connected, so in this scenario OnHold is considered to be a substate of Connected.
 
 When you are in a substate StateMachine.IsInState will return true if you pass a parent state of the current state, so if the app was in the OnHold state, doing sm.IsInState(Connected) would also return true.
@@ -152,6 +152,6 @@ would produce the events as you expect like:
 S1Exit, S2Enter, S2Exit, S3Enter
 
 
-##Version History
-###0.1.0
+## Version History
+### 0.1.0
 Initial release
